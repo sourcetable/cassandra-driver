@@ -1,0 +1,85 @@
+= DataStax Python Driver for Apache Cassandra®
+
+A Python client driver for http://cassandra.apache.org[Apache Cassandra®].
+This driver works exclusively with the Cassandra Query Language v3 (CQL3) and Cassandra's native protocol.
+Cassandra 2.1+ is supported, including DSE 4.7+.
+
+The driver supports Python 2.7, 3.5, 3.6, 3.7 and 3.8.
+
+This driver is open source under the http://www.apache.org/licenses/LICENSE-2.0.html[Apache v2 License].
+The source code for this driver can be found on http://github.com/datastax/python-driver[GitHub].
+
+NOTE: DataStax products do not support big-endian systems.
+
+== Contents
+
+xref:installation.adoc[Installation] +
+How to install the driver.
+
+xref:getting_started.adoc[Getting started] +
+A guide through the first steps of connecting to Cassandra and executing queries
+
+xref:execution_profiles.adoc[Execution profiles] +
+An introduction to a more flexible way of configuring request execution
+
+xref:lwt.adoc[Lightweight transactions] +
+Working with results of conditional requests
+
+xref:object_mapper.adoc[Object mapper] +
+Introduction to the integrated object mapper, cqlengine
+
+xref:performance.adoc[Performance notes] +
+Tips for getting good performance.
+
+xref:query_paging.adoc[Paging large queries] +
+Notes on paging large query results
+
+xref:security.adoc[Security] +
+An overview of the security features of the driver
+
+xref:upgrading.adoc[Upgrading] +
+A guide to upgrading versions of the driver
+
+xref:user_defined_types.adoc[User-defined types] +
+Working with Cassandra 2.1's user-defined types
+
+xref:dates_and_times.adoc[Working with dates and times] +
+Some discussion on the driver's approach to working with timestamp, date, time types
+
+xref:cloud.adoc[Cloud] +
+A guide to connecting to Datastax Astra
+
+xref:geo_types.adoc[] +
+Working with DSE geometry types
+
+xref:graph.adoc[] +
+Graph queries with the Core engine
+
+xref:classic_graph.adoc[] +
+Graph queries with the Classic engine
+
+xref:graph_fluent.adoc[] +
+DataStax Graph Fluent API
+
+xref:faq.adoc[] +
+A collection of Frequently Asked Questions
+
+xref:attachment$api/index.html[API documentation,window=_blank] +
+The API documentation.
+
+xref:attachment$CHANGELOG.html[Change log,window=_blank] +
+Log of changes to the driver, organized by version.
+
+== Getting Help
+
+Visit the xref:faq.adoc[Frequently asked questions] in this documentation.
+
+Please send questions to the link:https://groups.google.com/a/lists.datastax.com/forum/#!forum/python-driver-user[mailing list].
+
+Alternatively, you can use the link:https://community.datastax.com[DataStax Community].
+
+== Reporting Issues
+
+Please report any bugs and make any feature requests on the link:https://datastax-oss.atlassian.net/browse/PYTHON[JIRA] issue tracker.
+
+If you would like to contribute, please feel free to open a pull request.

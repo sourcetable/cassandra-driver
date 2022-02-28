@@ -1,0 +1,10 @@
+name: python-driver
+title: 'DataStax Python driver for Cassandra®'
+version: '3.25'
+display_version: 'Latest'
+nav:
+  - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    company: 'DataStax'
+    product: 'Python driver for Cassandra'
