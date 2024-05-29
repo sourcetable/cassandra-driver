@@ -12,22 +12,6 @@ from threading import Lock, Thread, get_ident
 
 log = logging.getLogger(__name__)
 
-
-# This module uses ``yield from`` and ``@asyncio.coroutine`` over ``await`` and
-# ``async def`` for pre-Python-3.5 compatibility, so keep in mind that the
-# managed coroutines are generator-based, not native coroutines. See PEP 492:
-# https://www.python.org/dev/peps/pep-0492/#coroutine-objects
-
-
-try:
-    asyncio.run_coroutine_threadsafe
-except AttributeError:
-    raise ImportError(
-        'Cannot use asyncioreactor without access to '
-        'asyncio.run_coroutine_threadsafe (added in 3.4.6 and 3.5.1)'
-    )
-
-
 class AsyncioTimer(object):
     """
     An ``asyncioreactor``-specific Timer. Similar to :class:`.connection.Timer,
@@ -71,9 +55,6 @@ class AsyncioConnection(Connection):
     """
     An experimental implementation of :class:`.Connection` that uses the
     ``asyncio`` module in the Python standard library for its event loop.
-
-    Note that it requires ``asyncio`` features that were only introduced in the
-    3.4 line in 3.4.6, and in the 3.5 line in 3.5.1.
     """
 
     _loop = None
