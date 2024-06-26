@@ -24,10 +24,11 @@ from cassandra.tuple cimport tuple_new, tuple_set
 
 import socket
 from decimal import Decimal
-from uuid import UUID
+#from uuid import UUID
 
 from cassandra import cqltypes
 from cassandra import util
+from cassandra.util import UUIDHEX as UUID
 
 cdef class Deserializer:
     """Cython-based deserializer class for a cqltype"""

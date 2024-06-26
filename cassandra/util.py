@@ -49,6 +49,14 @@ assert sys.byteorder in ('little', 'big')
 is_little_endian = sys.byteorder == 'little'
 
 
+class UUIDHEX(uuid.UUID):
+    def __str__(self):
+        hex = '%032x' % self.int
+        return '%s%s%s%s%s' % (hex[:8], hex[8:12], hex[12:16], hex[16:20], hex[20:])
+    def original_str(self):
+        return super().__str__()
+
+
 def datetime_from_timestamp(timestamp):
     """
     Creates a timezone-agnostic datetime from timestamp (in seconds) in a consistent manner.

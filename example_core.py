@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import logging
+import uuid
 
 log = logging.getLogger()
 log.setLevel('DEBUG')
@@ -25,6 +26,7 @@ log.addHandler(handler)
 from cassandra import ConsistencyLevel
 from cassandra.cluster import Cluster
 from cassandra.query import SimpleStatement
+from cassandra.util import UUIDHEX
 
 KEYSPACE = "testkeyspace"
 
@@ -45,6 +47,7 @@ def main():
     log.info("creating table...")
     session.execute("""
         CREATE TABLE IF NOT EXISTS mytable (
+            id timeuuid,
             thekey text,
             col1 text,
             col2 text,
@@ -53,23 +56,28 @@ def main():
         """)
 
     query = SimpleStatement("""
-        INSERT INTO mytable (thekey, col1, col2)
-        VALUES (%(key)s, %(a)s, %(b)s)
+        INSERT INTO mytable (thekey, col1, col2,id)
+        VALUES (%(key)s, %(a)s, %(b)s, %(id)s)
         """, consistency_level=ConsistencyLevel.ONE)
 
     prepared = session.prepare("""
-        INSERT INTO mytable (thekey, col1, col2)
-        VALUES (?, ?, ?)
+        INSERT INTO mytable (thekey, col1, col2,id)
+        VALUES (?, ?, ?,?)
         """)
+    
+    cql = """
+        INSERT INTO mytable (thekey, col1, col2,id)
+        VALUES (%s, %s, %s, %s)
+        """
 
+    uuidhex = UUIDHEX(hex=uuid.uuid1().hex)
     for i in range(10):
         log.info("inserting row %d" % i)
-        session.execute(query, dict(key="key%d" % i, a='a', b='b'))
-        session.execute(prepared, ("key%d" % i, 'b', 'b'))
+        session.execute(query, dict(key="key%d" % i, a='a', b='b', id=uuid.uuid1()))
+        session.execute(prepared, ("key%d" % i, 'b', 'b', uuid.uuid1()))
+        session.execute(cql, ["key%d" % i, 'b', 'b', uuidhex])
 
     future = session.execute_async("SELECT * FROM mytable")
-    log.info("key\tcol1\tcol2")
-    log.info("---\t----\t----")
 
     try:
         rows = future.result()
@@ -78,7 +86,7 @@ def main():
         return
 
     for row in rows:
-        log.info('\t'.join(row))
+        log.info(row)
 
     session.execute("DROP KEYSPACE " + KEYSPACE)
 

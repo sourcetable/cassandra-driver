@@ -16,7 +16,7 @@ from __future__ import absolute_import  # to enable import io from stdlib
 from collections import namedtuple
 import logging
 import socket
-from uuid import UUID
+from cassandra.util import UUIDHEX as UUID
 
 import io
 

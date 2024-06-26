@@ -15,7 +15,7 @@
 from copy import deepcopy, copy
 from datetime import date, datetime, timedelta
 import logging
-from uuid import UUID as _UUID
+from cassandra.util import UUIDHEX as _UUID
 
 from cassandra import util
 from cassandra.cqltypes import SimpleDateType, _cqltypes, UserType

@@ -26,6 +26,7 @@ import datetime
 import math
 import sys
 import types
+from cassandra.util import UUIDHEX
 from uuid import UUID
 import ipaddress
 
@@ -62,6 +63,7 @@ class Encoder(object):
             bytearray: self.cql_encode_bytes,
             str: self.cql_encode_str,
             int: self.cql_encode_object,
+            UUIDHEX: self.cql_encode_uuidhex,
             UUID: self.cql_encode_object,
             datetime.datetime: self.cql_encode_datetime,
             datetime.date: self.cql_encode_date,
@@ -115,6 +117,13 @@ class Encoder(object):
 
     def cql_encode_bytes(self, val):
         return (b'0x' + hexlify(val)).decode('utf-8')
+
+    def cql_encode_uuidhex(self, val):
+        """
+        Default encoder for all objects that do not have a specific encoder function
+        registered. This function simply calls :meth:`str()` on the object.
+        """
+        return val.original_str()
 
     def cql_encode_object(self, val):
         """

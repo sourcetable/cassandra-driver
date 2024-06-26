@@ -41,7 +41,7 @@ import socket
 import time
 import struct
 import sys
-from uuid import UUID
+from cassandra.util import UUIDHEX as UUID
 
 from cassandra.marshal import (int8_pack, int8_unpack, int16_pack, int16_unpack,
                                uint16_pack, uint16_unpack, uint32_pack, uint32_unpack,
