@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-driver"
+name = "cassandra-driver"
 version = "0.1.0"
 description = ""
 authors = ["Andrew Grosser <dioptre@gmail.com>"]
