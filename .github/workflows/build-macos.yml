@@ -17,11 +17,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Packages
-      run: |
-        brew install libev
-        arch -x86_64 /usr/local/bin/brew install libev
+    - name: Packages ARM64
+      run: brew install libev
 
+    - name: Packages X64
+      run: |
+        arch -x86_64 zsh
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        /usr/local/bin/brew install libev
+  
     - name: Install Python
       uses: actions/setup-python@v5
       with:
