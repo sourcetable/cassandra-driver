@@ -18,7 +18,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Packages
+      run: sudo apt-get install build-essential python-dev libev4 libev-dev
+
+    - name: Python Version
+      run: python --version
+
     - name: Build
       run: |
-        python --version
         python setup.py bdist_wheel
+
+    - name: Upload Packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: Wheel (${{ matrix.os }})
+        path: |
+          ./dist/*.whl
