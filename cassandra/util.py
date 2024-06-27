@@ -28,6 +28,7 @@ import socket
 import sys
 import time
 import uuid
+from pydantic_core import ValidationError, core_schema
 
 _HAS_GEOMET = True
 try:
@@ -50,11 +51,41 @@ is_little_endian = sys.byteorder == 'little'
 
 
 class UUIDHEX(uuid.UUID):
+    
     def __str__(self):
         hex = '%032x' % self.int
         return '%s%s%s%s%s' % (hex[:8], hex[8:12], hex[12:16], hex[16:20], hex[20:])
+    
     def original_str(self):
         return super().__str__()
+        
+    @classmethod
+    def __get_pydantic_core_schema__(cls, source, handler):
+        return core_schema.no_info_plain_validator_function(UUIDHEX.validate)         
+
+    @classmethod
+    def validate(cls, value):
+        if isinstance(value, UUIDHEX):
+            return value
+        if isinstance(value, uuid.UUID):
+            return UUIDHEX(value.hex)
+        try:
+            # Remove dashes if present
+            value = str(value).replace('-', '')
+            return UUIDHEX(value)
+        except:
+            raise ValidationError(f"Invalid UUID: {value}")
+
+    @classmethod
+    def __get_pydantic_json_schema__(cls, core_schema, handler):
+        json_schema = handler(core_schema)
+        json_schema.update({
+            "type": "string",
+            "format": "uuid",
+            "pattern": r"^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+        })
+        return json_schema
 
 
 def datetime_from_timestamp(timestamp):
