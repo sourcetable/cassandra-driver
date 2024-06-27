@@ -6,8 +6,6 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     strategy:
       fail-fast: false
       matrix:
@@ -17,14 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Packages ARM64
+    - name: Packages (macOS)
+      if: matrix.os == 'macos-14'
       run: brew install libev
 
-    - name: Packages X64
-      run: |
-        arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        arch -x86_64 /usr/local/bin/brew install libev
-  
     - name: Install Python
       uses: actions/setup-python@v5
       with:
