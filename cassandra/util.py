@@ -58,13 +58,16 @@ class UUIDHEX(uuid.UUID):
     
     def original_str(self):
         return super().__str__()
+    
+    def __reduce__(self):
+        return UUIDHEX, (self.hex,)
         
-    @classmethod
-    def __get_pydantic_core_schema__(cls, source, handler):
+    @staticmethod
+    def __get_pydantic_core_schema__(source, handler):
         return core_schema.no_info_plain_validator_function(UUIDHEX.validate)         
 
-    @classmethod
-    def validate(cls, value):
+    @staticmethod
+    def validate(value):
         if isinstance(value, UUIDHEX):
             return value
         if isinstance(value, uuid.UUID):
@@ -76,8 +79,8 @@ class UUIDHEX(uuid.UUID):
         except:
             raise ValidationError(f"Invalid UUID: {value}")
 
-    @classmethod
-    def __get_pydantic_json_schema__(cls, core_schema, handler):
+    @staticmethod
+    def __get_pydantic_json_schema__(core_schema, handler):
         json_schema = handler(core_schema)
         json_schema.update({
             "type": "string",
