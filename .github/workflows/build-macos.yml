@@ -8,7 +8,6 @@ jobs:
     timeout-minutes: 30
     env:
       BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-      JOBS: 4
     strategy:
       fail-fast: false
       matrix:
@@ -17,3 +16,10 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Python Version
+      run: python --version
+
+    - name: Build
+      run: |
+        python setup.py bdist_wheel
