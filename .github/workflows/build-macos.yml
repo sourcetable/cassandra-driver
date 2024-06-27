@@ -11,11 +11,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-12]
+        os: [macos-12, macos-14]
     steps:
 
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Packages
+      run: brew install libev
 
     - name: Install Python
       uses: actions/setup-python@v5
@@ -29,3 +32,9 @@ jobs:
       run: |
         pip install wheel
         python setup.py bdist_wheel
+
+    - name: Upload Packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: Wheels (${{ matrix.os }})
+        path: ./dist/*.whl
