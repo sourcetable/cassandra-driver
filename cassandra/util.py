@@ -61,6 +61,17 @@ class UUIDHEX(uuid.UUID):
     
     def __reduce__(self):
         return UUIDHEX, (self.hex,)
+    
+    def __eq__(self, other):
+        if isinstance(other, uuid.UUID):
+            return self.hex == other.hex
+        return False
+
+    def __hash__(self):
+        return hash(self.hex)
+    
+    def __repr__(self):
+        return f"UUIDHEX({self.hex})"
         
     @staticmethod
     def __get_pydantic_core_schema__(source, handler):
@@ -88,8 +99,7 @@ class UUIDHEX(uuid.UUID):
             "pattern": r"^[0-9a-fA-F]{32}$|^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
             "example": "123e4567-e89b-12d3-a456-426614174000"
         })
-        return json_schema
-
+        return json_schema    
 
 def datetime_from_timestamp(timestamp):
     """
