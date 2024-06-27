@@ -22,9 +22,8 @@ jobs:
 
     - name: Packages X64
       run: |
-        arch -x86_64 zsh
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        /usr/local/bin/brew install libev
+        arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        arch -x86_64 /usr/local/bin/brew install libev
   
     - name: Install Python
       uses: actions/setup-python@v5
