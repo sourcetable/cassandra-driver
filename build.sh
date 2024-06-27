@@ -2,6 +2,7 @@
 #poetry shell (run this from the ml/src directory)
 #brew reinstall openjdk@11
 #brew reinstall ant
+#brew install libev
 pip install -r requirements.txt
 python setup.py install
 python setup.py bdist_wheel
