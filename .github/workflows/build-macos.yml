@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14]
+        os: [macos-14, ubuntu-22.04]
     steps:
 
     - name: Checkout
@@ -18,6 +18,10 @@ jobs:
     - name: Packages (macOS)
       if: matrix.os == 'macos-14'
       run: brew install libev
+
+    - name: Packages (Ubuntu)
+      if: matrix.os == 'ubuntu-22.04'
+      run: sudo apt-get install build-essential python-dev-is-python3 libev4 libev-dev
 
     - name: Install Python
       uses: actions/setup-python@v5
